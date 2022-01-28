@@ -48,7 +48,12 @@ class DemoProjectApplicationTests {
 
 	@Autowired TestRestTemplate restTemplate;
 	@ParameterizedTest
-	@ValueSource(strings = {"Javier","Javier+Arturo","Arturo","Rodriguez"})
+	@ValueSource(strings = {
+			"Javier","Hello Javier!",
+			"Javier+Arturo","Hello Javier Arturo!",
+			"Arturo",
+			"Rodriguez"
+	})
 	void helloParamNames(String name) {
 		assertThat(restTemplate.getForObject("/hello?name="+name, String.class))
 				.isEqualTo("Hello "+name+"!");
