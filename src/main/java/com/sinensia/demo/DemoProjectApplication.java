@@ -24,4 +24,12 @@ public class DemoProjectApplication {
 		return String.format("Hello %s!", name);
 	}
 
+	@GetMapping("/add")
+	public Integer add(
+			@RequestParam(value="a") Integer a,
+			@RequestParam(value="b") Integer b
+	) {
+		return a+b;
+	}
+
 }
