@@ -1,7 +1,9 @@
 package com.sinensia.demo;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -64,8 +66,8 @@ class DemoProjectApplicationTests {
 				.isEqualTo("Hello "+name+"!");
 	}
 
-	@DisplayName("test multiple input values")
-	@ParameterizedTest(name="[{index}] ({arguments}) \"{0}\" -> \"{1}\" ")
+	@DisplayName(value="test multiple input values")
+	@ParameterizedTest(name="{displayName} [{index}] ({arguments}) \"{0}\" -> \"{1}\" ")
 	@CsvSource({
 			"a,            Hello a!",
 			"b,            Hello b!",
@@ -132,7 +134,7 @@ class DemoProjectApplicationTests {
 	}
 
 	@DisplayName("multiple additions")
-	@ParameterizedTest(name="[{index}] {0} + {1} = {2}")
+	@ParameterizedTest(name="{displayName} [{index}] {0} + {1} = {2}")
 	@CsvSource({
 			"1,   2,   3",
 			"1,   1,   2",
@@ -167,7 +169,7 @@ class DemoProjectApplicationTests {
 	}
 
 	@DisplayName("multiple additions")
-	@ParameterizedTest(name="[{index}] {0} + {1} = {2}")
+	@ParameterizedTest(name="{displayName} [{index}] {0} + {1} = {2}")
 	@CsvSource({
 			"1,   2,   3",
 			"1,   1,   2",
@@ -189,5 +191,23 @@ class DemoProjectApplicationTests {
 				.isEqualTo(3.5f);
 	}
 	*/
+
+	@Nested
+	@DisplayName(value="Application tests")
+	class AppTests {
+
+		@Autowired
+		private DemoProjectApplication app;
+
+		@Test
+		void appCanAddReturnsInteger() {
+			assertThat(app.add(1f, 2f)).isEqualTo(3);
+		}
+
+		@Test
+		void appCanAddReturnsFloat() {
+			assertThat(app.add(1.5f, 2f)).isEqualTo(3.5f);
+		}
+	}
 
 }
