@@ -46,7 +46,7 @@ class DemoProjectApplicationTests {
 
 	@Test
 	void helloNames() {
-		String[] arr = {"Javier","Javier+Arturo","Rodriguez"};
+		String[] arr = {"Javier","Javier Arturo","Rodriguez"};
 		for(String name: arr) {
 			assertThat(restTemplate.getForObject("/hello?name="+name, String.class))
 					.isEqualTo("Hello "+name+"!");
@@ -56,7 +56,6 @@ class DemoProjectApplicationTests {
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"Javier",
-			"Javier+Arturo",
 			"Arturo",
 			"Rodriguez"
 	})
@@ -166,5 +165,29 @@ class DemoProjectApplicationTests {
 			restTemplate.getForObject("/add?a=hola&b=2", Float.class);
 		});
 	}
+
+	@DisplayName("multiple additions")
+	@ParameterizedTest(name="[{index}] {0} + {1} = {2}")
+	@CsvSource({
+			"1,   2,   3",
+			"1,   1,   2",
+			"1.0, 1.0, 2",
+			"1,  -2,  -1",
+			"1.5, 2,   3.5",
+			"'',  2,   2",
+			"1.5, 1.5, 3"
+	})
+	void canAddCsvParameterizedFloat(String a, String b, String expected) {
+		assertThat(restTemplate.getForObject("/add?a="+a+"&b="+b, Float.class))
+				.isEqualTo(Float.parseFloat(expected));
+	}
+
+	/* Loss-of-precision by converting Float return value into Integer
+	@Test
+	void canAddInteger() {
+		assertThat(restTemplate.getForObject("/add?a=1.5&b=2", Integer.class))
+				.isEqualTo(3.5f);
+	}
+	*/
 
 }
