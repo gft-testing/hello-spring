@@ -221,4 +221,25 @@ class DemoProjectApplicationTests {
 
 	}
 
+	@Nested
+	class MultiplicationTests {
+
+		@DisplayName("multiplication")
+		@ParameterizedTest(name="{displayName} [{index}] {0} * {1} = {2}")
+		@CsvSource({
+				"1,   2,   2",
+				"1,   1,   1",
+				"1.0, 1.0, 1",
+				"1,  -2,  -2",
+				"1.5, 2,   3",
+				"'',  2,   0",
+				"1.5, 1.5, 2.25"
+		})
+		void canMultiply(String a, String b, String expected) {
+			assertThat(restTemplate.getForObject("/multiply?a="+a+"&b="+b, String.class))
+					.isEqualTo(expected);
+		}
+
+	}
+
 }
