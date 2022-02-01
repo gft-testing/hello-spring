@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @AutoConfigureWebTestClient
 class DemoProjectApplicationTests {
 
-	@Autowired TestRestTemplate restTemplate;
+	@Autowired transient TestRestTemplate restTemplate;
 
 	@Test
 	void contextLoads() {
